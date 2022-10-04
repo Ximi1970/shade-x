@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>files/icons/gtk-preferences.png</file>
+        <file>files/icons/window-close.png</file>
+        <file>files/icons/window-restore.png</file>
+        <file>files/icons/help-about.png</file>
+        <file>files/icons/Shade-X.png</file>
+        <file>languages/Shade-X.en-US.qm</file>
+        <file>languages/Shade-X.en-US.ts</file>
+    </qresource>
+</RCC>

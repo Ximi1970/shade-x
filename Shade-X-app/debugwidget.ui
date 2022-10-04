@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DebugWidget</class>
+ <widget class="QWidget" name="DebugWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>368</width>
+    <height>280</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Shade-X Debug</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Shade-X.qrc">
+    <normaloff>:/files/icons/Shade-X.png</normaloff>:/files/icons/Shade-X.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="test1PushButton">
+       <property name="text">
+        <string>Test 1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test2PushButton">
+       <property name="text">
+        <string>Test 2</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test3PushButton">
+       <property name="text">
+        <string>Test 3</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test4PushButton">
+       <property name="text">
+        <string>Test 4</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QTextEdit" name="textEdit"/>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="Shade-X.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,7 @@
+/build/*
+/dist/*.exe
+/dist/bin
+/.qmake.stash*
+/Makefile*
+/Shade-X.pro.user*
+/Shade-X-app/Makefile*
