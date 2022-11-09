@@ -101,5 +101,12 @@ void    DebugWidget::slotHandleTest4Button()
  */
 void    DebugWidget::slotConsole( QString message )
 {
-    m_ui->textEdit->append( message );
+    if( message == "" )
+    {
+        m_ui->textEdit->setText("");
+    }
+    else
+    {
+        m_ui->textEdit->append( message );
+    }
 }

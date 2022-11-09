@@ -44,6 +44,16 @@ class WindowCtrlWin : public QObject
 {
     Q_OBJECT
 
+    private:
+
+        /**
+         * @brief The EnumWindowsProcData struct
+         */
+        struct EnumWindowsProcData
+        {
+            WindowCtrlWin&  window_ctrl;
+        };
+
     public:
 
         /**
@@ -226,6 +236,39 @@ class WindowCtrlWin : public QObject
          */
         void    clean( int index );
 
+        /**
+         * @brief getDesktopWindows. Get all desktop windows.
+         */
+        void    getDesktopWindows();
+
+        /**
+         * @brief enumWindowsProc
+         *
+         *  @param hwnd     Windows handle found.
+         *  @param lParam   Pointer to the data.
+         *
+         *  @return
+         */
+        static BOOL CALLBACK   enumWindowsProc( HWND hwnd, LPARAM lParam );
+
+        /**
+         * @brief isMainWindow. Check for a main window.
+         *
+         *  @param hwnd     Window handle to be checked.
+         *
+         *  @return     Window state.
+         */
+        static BOOL    isMainWindow( HWND hwnd );
+
+        /**
+         * @brief IsInvisibleWin10BackgroundAppWindow. Check for special win10 windows.
+         *
+         *  @param hwnd     Window handle to be checked.
+         *
+         *  @return     Window state.
+         */
+        static BOOL    IsInvisibleWin10BackgroundAppWindow( HWND hwnd );
+
     signals:
 
         /**
@@ -365,6 +408,11 @@ class WindowCtrlWin : public QObject
          * @brief m_splash_timer
          */
         QTimer  m_splash_timer;
+
+        /**
+         * @brief m_desktop_windows
+         */
+        QList< HWND >   m_desktop_windows;
 };
 
 #endif // WINDOWCTRLWIN_H

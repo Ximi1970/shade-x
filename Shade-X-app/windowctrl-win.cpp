@@ -93,8 +93,6 @@ void    WindowCtrlWin::splashTimeout()
 {
     if( m_parent->isVisible() )
     {
-//        emit signalConsole("Splash visible, clicking");
-
         dblClickParent();
 
         m_splash_timer.singleShot( SPLASH_TIMEOUT, this, &WindowCtrlWin::splashTimeout );
@@ -319,6 +317,25 @@ bool    WindowCtrlWin::mouseEventHookAction( POINT pt )
             if( !m_titlebar_hwnds.contains( hwnd ) )
             {
                 /*
+                 * Get caption text
+                 */
+                char caption[ 1024 ];
+                GetWindowTextA( hwnd, caption, sizeof( caption ) );
+
+                /*
+                 * Get all windows on screen
+                 */
+                getDesktopWindows();
+
+                /*
+                 * Only shade when clicked on a desktop window or a "Chrome Legacy Window"
+                 */
+                if( strcmp( caption, "Chrome Legacy Window" ) != 0 && !m_desktop_windows.contains( hwnd ) )
+                {
+                   return false;
+                }
+
+                /*
                  * Get pointer position within the window
                  */
                 POINT rel = pt;
@@ -436,7 +453,6 @@ bool    WindowCtrlWin::mouseEventHookAction( POINT pt )
                     }
                     if( valid_invisible )
                     {
-//                        correction.setX( m_decoration_width );
                         correction.setX( m_decoration_width - left_decoration );
                     }
 
@@ -985,4 +1001,69 @@ void    WindowCtrlWin::clean( int index )
     m_titlebars[ index ]->close();
     delete m_titlebars[ index ];
     m_titlebars.removeAt( index );
+}
+
+
+
+/*
+ *  Get the visible desktop windows
+ *
+ *  https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdesktopwindows?redirectedfrom=MSDN
+ */
+void    WindowCtrlWin::getDesktopWindows()
+{
+    m_desktop_windows = QList< HWND >();
+
+    EnumWindowsProcData data{ *this };
+//    EnumWindows( &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
+    EnumDesktopWindows( 0, &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
+
+    emit signalConsole( QString( "Number of windows found: %1" ).arg( m_desktop_windows.length() ) );
+
+    for( int i = 0 ; i< m_desktop_windows.length() ; ++i )
+    {
+        emit signalConsole( QString( "Hwnd %1" ).arg( (qulonglong)m_desktop_windows.at( i ), 0, 16 ) );
+    }
+}
+
+
+/*
+ *  Callback for the window enumaration pid find.
+ */
+BOOL CALLBACK   WindowCtrlWin::enumWindowsProc( HWND hwnd, LPARAM lParam )
+{
+    auto& data = *reinterpret_cast<EnumWindowsProcData*>( lParam );
+
+    if( !isMainWindow( hwnd ) )
+    {
+        return TRUE;
+    }
+
+    /*
+     *  Store the window handle
+     */
+    data.window_ctrl.m_desktop_windows.append( hwnd );
+
+    return TRUE;
+}
+
+
+/*
+ *  Check for main window
+ */
+BOOL    WindowCtrlWin::isMainWindow( HWND hwnd )
+{
+    return GetWindow( hwnd, GW_OWNER ) == (HWND)0 && IsWindowVisible( hwnd ) &&
+            !IsIconic( hwnd ) && !IsInvisibleWin10BackgroundAppWindow( hwnd );
+}
+
+BOOL    WindowCtrlWin::IsInvisibleWin10BackgroundAppWindow( HWND hwnd )
+{
+    int cloakedVal;
+    HRESULT hres = DwmGetWindowAttribute( hwnd, DWMWA_CLOAKED, &cloakedVal, sizeof( cloakedVal ) );
+    if ( hres != S_OK )
+    {
+        cloakedVal = 0;
+    }
+    return cloakedVal ? true : false;
 }

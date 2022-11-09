@@ -38,11 +38,13 @@ WindowCtrl::WindowCtrl( Preferences* pref, QWidget* parent )
  */
 void    WindowCtrl::slotWindowTest1()
 {
-    emit signalConsole("Test 1 started");
+//    emit signalConsole("Test 1 started");
 
     // Do something.
+    emit signalConsole( "" );
 
-    emit signalConsole("Test 1 done");
+
+//    emit signalConsole("Test 1 done");
 }
 
 
