@@ -1017,13 +1017,14 @@ void    WindowCtrlWin::getDesktopWindows()
     EnumWindowsProcData data{ *this };
 //    EnumWindows( &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
     EnumDesktopWindows( 0, &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
-
+/*
     emit signalConsole( QString( "Number of windows found: %1" ).arg( m_desktop_windows.length() ) );
 
     for( int i = 0 ; i< m_desktop_windows.length() ; ++i )
     {
         emit signalConsole( QString( "Hwnd %1" ).arg( (qulonglong)m_desktop_windows.at( i ), 0, 16 ) );
     }
+*/
 }
 
 
