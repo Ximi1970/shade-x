@@ -171,36 +171,6 @@ void    WindowCtrlWin::click( POINT pos )
 }
 
 
-#ifdef  TEST_SENDMESSAGE
-void    WindowCtrlWin::dblClickParent2()
-{
-    emit signalConsole("Double click myself");
-
-    HWND hwnd = (HWND)m_parent->winId();
-
-    /*
-     * Get my titlebar geometrics
-     */
-    TITLEBARINFOEX* ptinfo = (TITLEBARINFOEX*)malloc( sizeof( TITLEBARINFOEX ) );
-    ptinfo->cbSize = sizeof( TITLEBARINFOEX );
-    SendMessage( hwnd, WM_GETTITLEBARINFOEX, 0, (LPARAM)ptinfo );
-
-    POINT pos;
-    pos.x = ptinfo->rcTitleBar.left + (ptinfo->rcTitleBar.right - ptinfo->rcTitleBar.left ) / 2;
-    pos.y = ptinfo->rcTitleBar.top + m_caption_height / 2;
-
-    free( ptinfo );
-
-    LPARAM lParam = MAKELPARAM( pos.x, pos.y);
-    SendMessage( hwnd, WM_LBUTTONDOWN, MK_LBUTTON, lParam );
-    SendMessage( hwnd, WM_LBUTTONUP, 0, lParam );
-
-    SendMessage( hwnd, WM_LBUTTONDOWN, MK_LBUTTON, lParam );
-    SendMessage( hwnd, WM_LBUTTONUP, 0, lParam );
-}
-#endif
-
-
 /*
  * Intercept the mouse event
  */
@@ -837,8 +807,6 @@ void    WindowCtrlWin::winDestroyEventHookAction( HWND hwnd )
 {
     if( m_shade_hwnds.contains( hwnd ) )
     {
-//        emit signalConsole( QString( "Shaded app closed" ) );
-
         /*
          * Get the index
          */
@@ -857,8 +825,6 @@ void    WindowCtrlWin::winDestroyEventHookAction( HWND hwnd )
  */
 void    WindowCtrlWin::slotMaximizedTitlebar( WId hwnd )
 {
-//    emit signalConsole( QString( "Maximized" ) );
-
     /*
      * Get the index
      */
@@ -881,8 +847,6 @@ void    WindowCtrlWin::slotMaximizedTitlebar( WId hwnd )
  */
 void    WindowCtrlWin::slotMinimizedTitlebar( WId hwnd )
 {
-//    emit signalConsole( QString( "Minimized" ) );
-
     /*
      * Get the index
      */
@@ -1017,14 +981,15 @@ void    WindowCtrlWin::getDesktopWindows()
     EnumWindowsProcData data{ *this };
 //    EnumWindows( &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
     EnumDesktopWindows( 0, &enumWindowsProc, reinterpret_cast<LPARAM>( &data ) );
-/*
+
+#ifdef  DISPLAY_WINDETECT
     emit signalConsole( QString( "Number of windows found: %1" ).arg( m_desktop_windows.length() ) );
 
     for( int i = 0 ; i< m_desktop_windows.length() ; ++i )
     {
         emit signalConsole( QString( "Hwnd %1" ).arg( (qulonglong)m_desktop_windows.at( i ), 0, 16 ) );
     }
-*/
+#endif
 }
 
 
