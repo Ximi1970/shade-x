@@ -9,7 +9,7 @@ Install:
 - [TortoiseGit](https://tortoisegit.org/)
 - [PuTTY](https://www.putty.org/)
 - [Qt](https://www.qt.io/download-thank-you?os=windows&hsLang=en) (5.15.2)
-- [NSIS] (https://nsis.sourceforge.io/Download)
+- [NSIS](https://nsis.sourceforge.io/Download)
 
 Clone the repository.
 Start Qt Creator and open 'Shade-X.pro'.
