@@ -22,10 +22,23 @@ class Preferences : public QObject
 
     public:
 
+        /**
+         * @brief The Theme enum
+         */
         enum Theme {
             PREF_THEME_LIGHT = 0,
             PREF_THEME_DARK
         };
+
+        /**
+         * @brief The DoubleClickTime enum
+         */
+        enum DoubleClickTime {
+            PREF_DBL_SYSTEM = 0,
+            PREF_DBL_CUSTOM
+        };
+
+        int PREF_DBL_CUSTOM_DEFAULT = 500;
 
     public:
 
@@ -47,6 +60,34 @@ class Preferences : public QObject
          * @param theme     The state.
          */
         void setTheme( Theme theme );
+
+        /**
+         * @brief getDblClickTime. Get the double click time.
+         *
+         * @return      The time.
+         */
+        DoubleClickTime getDblClickTime() const;
+
+        /**
+         * @brief setDblClickTime. Set the double click time.
+         *
+         * @param time     The time.
+         */
+        void setDblClickTime( DoubleClickTime time );
+
+        /**
+         * @brief getCustomDblClickTime. Get the custom double click time.
+         *
+         * @return      The time.
+         */
+        int getCustomDblClickTime() const;
+
+        /**
+         * @brief setCustomDblClickTime. Set the custom double click time.
+         *
+         * @param time     The time.
+         */
+        void setCustomDblClickTime( int time );
 
         /**
          * @brief getDebug. Get the debug windows state.
@@ -109,6 +150,16 @@ class Preferences : public QObject
          */
         void signalThemeChange();
 
+        /**
+         * @brief signalDblClickTimeChange. Signal a double click time change.
+         */
+        void signalDblClickTimeChange();
+
+        /**
+         * @brief signalCustomDblClickTimeChange. Signal a custom double click time change.
+         */
+        void signalCustomDblClickTimeChange();
+
     private:
 
         /**
@@ -155,6 +206,16 @@ class Preferences : public QObject
          * @brief m_theme. The theme.
          */
         Theme m_theme;
+
+        /**
+         * @brief m_time. The double click time.
+         */
+        DoubleClickTime m_time;
+
+        /**
+         * @brief m_custom_time. The custom double click time.
+         */
+        int m_custom_time;
 };
 
 #endif // PREFERENCES_H

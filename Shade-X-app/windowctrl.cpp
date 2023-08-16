@@ -19,7 +19,7 @@
  *  Constructor
  */
 WindowCtrl::WindowCtrl( Preferences* pref, QWidget* parent )
-    : WindowCtrlWin( parent )
+    : WindowCtrlWin( parent, pref )
 {
     /*
      *  Store preferences

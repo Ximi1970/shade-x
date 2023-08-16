@@ -50,6 +50,24 @@ Preferences::Preferences( QObject *parent ) : QObject( parent )
     {
         m_theme = PREF_THEME_LIGHT;
     }
+
+    if( m_settings.value( "dbl_time" ) == PREF_DBL_SYSTEM )
+    {
+        m_time = PREF_DBL_SYSTEM;
+    }
+    else
+    {
+        m_time = PREF_DBL_CUSTOM;
+    }
+
+    if( m_settings.value( "dbl_custom_time" ).toInt() == 0 )
+    {
+        m_custom_time = PREF_DBL_CUSTOM_DEFAULT;
+    }
+    else
+    {
+        m_custom_time = m_settings.value( "dbl_custom_time" ).toInt();
+    }
 }
 
 
@@ -76,6 +94,60 @@ void    Preferences::setTheme( Theme theme )
          *  Tell the world the new preference
          */
         emit signalThemeChange();
+    }
+}
+
+
+/*
+ *  Get the double click time pref.
+ */
+Preferences::DoubleClickTime    Preferences::getDblClickTime() const
+{
+    return m_time;
+}
+
+
+/*
+ *  Set the double click time pref.
+ */
+void    Preferences::setDblClickTime( DoubleClickTime time )
+{
+    if( m_time != time )
+    {
+        m_time = time;
+        m_settings.setValue( "dbl_time", m_time );
+
+        /*
+         *  Tell the world the new preference
+         */
+        emit signalDblClickTimeChange();
+    }
+}
+
+
+/*
+ *  Get the custom double click time pref.
+ */
+int    Preferences::getCustomDblClickTime() const
+{
+    return m_custom_time;
+}
+
+
+/*
+ *  Set the custom double click time pref.
+ */
+void    Preferences::setCustomDblClickTime( int time )
+{
+    if( m_custom_time != time )
+    {
+        m_custom_time = time;
+        m_settings.setValue( "dbl_custom_time", m_custom_time );
+
+        /*
+         *  Tell the world the new preference
+         */
+        emit signalCustomDblClickTimeChange();
     }
 }
 

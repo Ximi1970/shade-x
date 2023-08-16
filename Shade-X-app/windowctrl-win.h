@@ -61,7 +61,7 @@ class WindowCtrlWin : public QObject
          *
          * @param parent    My parent.
          */
-        explicit WindowCtrlWin( QWidget* parent = nullptr );
+        explicit WindowCtrlWin( QWidget* parent = nullptr, Preferences* pref = nullptr );
 
         /**
          * @brief ~WindowCtrlWin. Destructor.
@@ -316,6 +316,11 @@ class WindowCtrlWin : public QObject
         QWidget*    m_parent;
 
         /**
+         * @brief m_pref. Pointer to the preferences storage.
+         */
+        Preferences*    m_pref;
+
+        /**
          * @brief m_debug. Pointer to the debug widget.
          */
         DebugWidget*    m_debug;
@@ -351,8 +356,6 @@ class WindowCtrlWin : public QObject
          */
         QList<Titlebar*>  m_titlebars;
 #endif
-
-
 
         /**
          * @brief m_caption_height

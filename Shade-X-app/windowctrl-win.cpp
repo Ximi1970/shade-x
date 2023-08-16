@@ -26,12 +26,17 @@ WindowCtrlWin*  WindowCtrlWin::m_ctrl_parent = nullptr;
 /*
  *  Constructor
  */
-WindowCtrlWin::WindowCtrlWin( QWidget* parent) : QObject( parent )
+WindowCtrlWin::WindowCtrlWin( QWidget* parent, Preferences* pref ) : QObject( parent )
 {
     /*
      *  Store the parent
      */
     m_parent = parent;
+
+    /*
+     * Store the preferences
+     */
+    m_pref = pref;
 
     /*
      *  Initialize
@@ -237,7 +242,14 @@ bool    WindowCtrlWin::mouseEventHookAction( POINT pt )
         /*
          * Start double click timer
          */
-        m_click_timer.singleShot( GetDoubleClickTime(), this, &WindowCtrlWin::doubleClickTimeout );
+        if( m_pref->getDblClickTime() == Preferences::PREF_DBL_SYSTEM )
+        {
+            m_click_timer.singleShot( GetDoubleClickTime(), this, &WindowCtrlWin::doubleClickTimeout );
+        }
+        else
+        {
+            m_click_timer.singleShot( m_pref->getCustomDblClickTime(), this, &WindowCtrlWin::doubleClickTimeout );
+        }
     }
     else
     {

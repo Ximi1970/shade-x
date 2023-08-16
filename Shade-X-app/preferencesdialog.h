@@ -69,6 +69,20 @@ class PreferencesDialog : public QDialog
          */
         void    setTheme( Preferences::Theme theme );
 
+        /**
+         * @brief setDblClickTime. Set the double click time.
+         *
+         * @param time     The time.
+         */
+        void    setDblClickTime( Preferences::DoubleClickTime time );
+
+        /**
+         * @brief setCustomDblClcikTime. Set the custom double click time.
+         *
+         * @param time     The time.
+         */
+        void    setCustomDblClickTime( int time );
+
     signals:
 
         /**
@@ -89,6 +103,16 @@ class PreferencesDialog : public QDialog
          * @brief slotThemeChange. Slot for handling theme change.
          */
         void    slotThemeChange();
+
+        /**
+         * @brief slotDblClickTimeChange. Slot for handling double click time change.
+         */
+        void    slotDblClickTimeChange();
+
+        /**
+         * @brief slotCustomDblClickTimeChange. Slot for handling custom double click time change.
+         */
+        void    slotCustomDblClickTimeChange();
 
     private slots:
 

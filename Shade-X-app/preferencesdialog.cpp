@@ -37,8 +37,14 @@ PreferencesDialog::PreferencesDialog( Preferences *pref, QWidget *parent ) : QDi
     /*
      *  Set theme button Ids
      */
-    m_ui->themeGroup->setId( m_ui->lightRadioButton, Preferences::PREF_THEME_LIGHT);
-    m_ui->themeGroup->setId( m_ui->darkRadioButton, Preferences::PREF_THEME_DARK );
+    m_ui->themeButtonGroup->setId( m_ui->lightRadioButton, Preferences::PREF_THEME_LIGHT);
+    m_ui->themeButtonGroup->setId( m_ui->darkRadioButton, Preferences::PREF_THEME_DARK );
+
+    /*
+     *  Set double click time button Ids
+     */
+    m_ui->doubleClickTimeButtonGroup->setId( m_ui->systemTimeRadioButton, Preferences::PREF_DBL_SYSTEM);
+    m_ui->doubleClickTimeButtonGroup->setId( m_ui->darkRadioButton, Preferences::PREF_DBL_CUSTOM );
 
     /*
      *  Dialog on top
@@ -52,6 +58,8 @@ PreferencesDialog::PreferencesDialog( Preferences *pref, QWidget *parent ) : QDi
      */
     setDebug( m_pref->getDebug() );
     setTheme( m_pref->getTheme() );
+    setDblClickTime( m_pref->getDblClickTime() );
+    setCustomDblClickTime( m_pref->getCustomDblClickTime() );
 }
 
 
@@ -107,7 +115,25 @@ void    PreferencesDialog::setDebug( bool state )
  */
 void    PreferencesDialog::setTheme( Preferences::Theme theme )
 {
-   ( m_ui->themeGroup->button( theme ) )->setChecked( true );
+   ( m_ui->themeButtonGroup->button( theme ) )->setChecked( true );
+}
+
+
+/*
+ *  Set the double click time
+ */
+void    PreferencesDialog::setDblClickTime( Preferences::DoubleClickTime time )
+{
+   ( m_ui->doubleClickTimeButtonGroup->button( time ) )->setChecked( true );
+}
+
+
+/*
+ *  Set the custom double click time spinner
+ */
+void    PreferencesDialog::setCustomDblClickTime( int time )
+{
+    m_ui->doubleClickSpinBox->setValue( time );
 }
 
 
@@ -119,8 +145,14 @@ void    PreferencesDialog::slotAccept()
     /*
      *  Get all the selected values and store them in the preferences
      */
-    Preferences::Theme theme = static_cast< Preferences::Theme >( m_ui->themeGroup->checkedId() );
+    Preferences::Theme theme = static_cast< Preferences::Theme >( m_ui->themeButtonGroup->checkedId() );
     m_pref->setTheme( theme );
+
+    Preferences::DoubleClickTime time = static_cast< Preferences::DoubleClickTime >( m_ui->doubleClickTimeButtonGroup->checkedId() );
+    m_pref->setDblClickTime( time );
+
+    int custom_time = m_ui->doubleClickSpinBox->value();
+    m_pref->setCustomDblClickTime( custom_time );
 
     m_pref->setDebug( m_ui->debugWindowCheckBox->isChecked() );
 
@@ -147,6 +179,8 @@ void    PreferencesDialog::slotReject()
      *  Reset all parameters
      */
     setTheme( m_pref->getTheme() );
+    setDblClickTime( m_pref->getDblClickTime() );
+    setCustomDblClickTime( m_pref->getCustomDblClickTime() );
     setDebug( m_pref->getDebug());
 }
 
@@ -166,4 +200,22 @@ void    PreferencesDialog::slotDebugChange()
 void    PreferencesDialog::slotThemeChange()
 {
     setTheme( m_pref->getTheme() );
+}
+
+
+/*
+ *  Handle the double click time change signal
+ */
+void    PreferencesDialog::slotDblClickTimeChange()
+{
+    setDblClickTime( m_pref->getDblClickTime() );
+}
+
+
+/*
+ *  Handle the customdouble click time change signal
+ */
+void    PreferencesDialog::slotCustomDblClickTimeChange()
+{
+    setCustomDblClickTime( m_pref->getCustomDblClickTime() );
 }
