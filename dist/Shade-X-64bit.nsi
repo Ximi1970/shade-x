@@ -1,6 +1,6 @@
 !define Name "Shade-X"
 !define VERSIONMAJOR 1
-!define VERSIONMINOR 0
+!define VERSIONMINOR 1
 !define VERSIONBUILD 0
 
 Name "${Name}"
